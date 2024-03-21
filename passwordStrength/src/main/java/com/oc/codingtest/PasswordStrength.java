@@ -40,7 +40,7 @@ public class PasswordStrength {
    * eg3a: "1pass2word3" would have a max. sequence length of 0 - as there is no sequence.
    * eg3b: "passwordABC" would have a max. sequence length of 3 - for the sequence of "ABC".
    * eg4: "AbCdEf" would have a sequence length of 6, even though it is mixed case.
-   *
+   * eg5: "ABC_DEF" would have a sequence length of 3, because the special character breaks the progression
    * Check the supplied password.  Return true if the repetition count and sequence length are below or equal to the
    * specified maximum.  Otherwise, return false.
    * @param password

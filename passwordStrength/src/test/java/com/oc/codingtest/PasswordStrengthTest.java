@@ -19,68 +19,50 @@ class PasswordStrengthTest {
 
   private static Stream<Arguments> maxRepetitionsArgProvider() {
     return Stream.of(
-      Arguments.of("abcdefg", 0, false),
-
-      Arguments.of("password", 0, false),
-      Arguments.of("password", 1, false),
-      Arguments.of("password", 2, true),
-
-      Arguments.of("touchwood", 2, false),
-      Arguments.of("touchwood", 3, true),
-
-      Arguments.of("TheQuickBrownFoxJumpsOverTheLazyDog", 2, false),
-      Arguments.of("TheQuickBrownFoxJumpsOverTheLazyDog", 3, true)
+      Arguments.of("abcdefg", 1),
+      Arguments.of("password", 2),
+      Arguments.of("touchwood", 3),
+      // The check should be case-sensitive
+      Arguments.of("TheQuickBrownFoxJumpsOverTheLazyDog", 3)
     );
   }
 
   @ParameterizedTest
   @DisplayName("Max character repetition tests")
   @MethodSource("com.oc.codingtest.PasswordStrengthTest#maxRepetitionsArgProvider")
-  void checkingMaxRepetitionsOnly(String password, int maxRepetitions, boolean expectedResult) {
-    assertEquals(expectedResult, ps.isPasswordPermissible(password, maxRepetitions, Integer.MAX_VALUE));
+  void checkingMaxRepetitionsOnly(String password, int expectedResult) {
+    assertEquals(expectedResult, ps.getMaxRepetitionCount(password));
   }
 
   private static Stream<Arguments> maxSequenceLenArgProvider() {
     return Stream.of(
       //simple ascending
-      Arguments.of("abcdef", 0, 6),
-      Arguments.of("abcdef", 5, 6),
-      Arguments.of("abcdef", 6, 6),
+      Arguments.of("abcdef", 6),
       //simple descending
-      Arguments.of("fedcba", 0, 6),
-      Arguments.of("fedcba", 5, 6),
-      Arguments.of("fedcba", 6, 6),
-
+      Arguments.of("fedcba", 6),
       //numeric ascending
-      Arguments.of("0123456789", 9, 10),
-      Arguments.of("0123456789", 10, 10),
-
+      Arguments.of("0123456789", 10),
       //numeric descending
-      Arguments.of("9876543210", 9, 10),
-      Arguments.of("9876543210", 10, 10),
-
+      Arguments.of("9876543210", 10),
       //ascending - mixed case
-      Arguments.of("ABCdef", 2, 6),
-      Arguments.of("ABCdef", 5, 6),
-      Arguments.of("ABCdef", 6, 6),
-
+      Arguments.of("ABCdef", 6),
       //descending - mixed case
-      Arguments.of("fedCBA", 2, 6),
-      Arguments.of("fedCBA", 5, 6),
-      Arguments.of("fedCBA", 6, 6),
+      Arguments.of("fedCBA", 6),
 
       //Exclude/handle non-alphanumeric chars
-      Arguments.of("/012345678", 8, 9),
-      Arguments.of("/012345678", 9, 9),
-      Arguments.of("0123456789:", 9, 10),
-      Arguments.of("0123456789:", 10, 10)
+      Arguments.of("/012345678", 9),
+      Arguments.of("0123456789:", 10),
+      Arguments.of("01234*567:", 5),
+
+      //Ascending and descending mixed
+      Arguments.of("23454321", 5)
     );
   }
 
   @ParameterizedTest
   @DisplayName("Max sequence length tests")
   @MethodSource("com.oc.codingtest.PasswordStrengthTest#maxSequenceLenArgProvider")
-  void checkingMaxSequenceLenOnly(String password, int maxLen, int expectedResult) {
+  void checkingMaxSequenceLenOnly(String password, int expectedResult) {
     assertEquals(expectedResult, ps.getMaxSequenceLen(password));
   }
 
