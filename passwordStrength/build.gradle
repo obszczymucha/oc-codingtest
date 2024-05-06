@@ -16,9 +16,23 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    deps = [
+      lombok: 'org.projectlombok:lombok:1.18.32'
+    ]
+}
+
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
+
+    // I'm adding Lombok to neatly distinguish between mutable
+    // and immutable variables and to reduce boilerplate with 'val'.
+    // Imo, Java should have that keyword by default. :(
+    compileOnly deps.lombok
+    annotationProcessor deps.lombok
+    testCompileOnly deps.lombok
+    testAnnotationProcessor deps.lombok
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
