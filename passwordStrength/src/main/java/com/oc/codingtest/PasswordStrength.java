@@ -1,16 +1,6 @@
 package com.oc.codingtest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.*;
-
-import static java.util.stream.Collectors.*;
-
 public class PasswordStrength {
-
-  private static final Logger log = LoggerFactory.getLogger(PasswordStrength.class);
-
   public boolean isPasswordPermissible(String password, int maxAllowedRepetitionCount, int maxAllowedSequenceLength) {
     // This method accepts a password (String) and calculates two password strength parameters:
     // Repetition count and Max Sequence length

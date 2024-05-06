@@ -4,8 +4,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.stream.Stream;
 
@@ -13,10 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PasswordStrengthTest {
 
-  private static final Logger log = LoggerFactory.getLogger(PasswordStrengthTest.class);
-
   PasswordStrength ps = new PasswordStrength();
 
+  @SuppressWarnings("unused")
   private static Stream<Arguments> maxRepetitionsArgProvider() {
     return Stream.of(
       Arguments.of("abcdefg", 1),
@@ -34,6 +31,7 @@ class PasswordStrengthTest {
     assertEquals(expectedResult, ps.getMaxRepetitionCount(password));
   }
 
+  @SuppressWarnings("unused")
   private static Stream<Arguments> maxSequenceLenArgProvider() {
     return Stream.of(
       //simple ascending

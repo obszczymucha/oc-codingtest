@@ -19,11 +19,6 @@ repositories {
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
-
-    // This dependency is used by the application.
-    implementation 'org.slf4j:slf4j-api:2.0.+'
-    implementation 'ch.qos.logback:logback-classic:1.4.+'
-
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
