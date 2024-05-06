@@ -1,7 +1,13 @@
 package com.oc.codingtest;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Optional;
+
+import lombok.val;
+
 public class PasswordStrength {
-  public boolean isPasswordPermissible(String password, int maxAllowedRepetitionCount, int maxAllowedSequenceLength) {
+  public boolean isPasswordPermissible(final String password, final int maxAllowedRepetitionCount, final int maxAllowedSequenceLength) {
     // This method accepts a password (String) and calculates two password strength parameters:
     // Repetition count and Max Sequence length
     return getMaxRepetitionCount(password) <= maxAllowedRepetitionCount
@@ -18,8 +24,14 @@ public class PasswordStrength {
    * @param password
    * @return
    */
-  public int getMaxRepetitionCount(String password) {
-    return 1;
+  public int getMaxRepetitionCount(final String password) {
+    if (password.isEmpty())
+      return 0;
+
+    val map = new HashMap<Integer, Integer>();
+    password.chars().forEach((c) -> map.put(c, map.getOrDefault(c, 0) + 1));
+
+    return Collections.max(map.values());
   }
 
   /**
@@ -36,7 +48,44 @@ public class PasswordStrength {
    * @param password
    * @return
    */
-  public int getMaxSequenceLen(String password) {
-    return 0;
+  public int getMaxSequenceLen(final String password) {
+    var result = 0;
+    var sequenceLen = 0;
+    var lastDirection = SequenceDirection.NONE;
+    var lastChar = Optional.<Character>empty();
+
+    for (char c : password.toLowerCase().toCharArray()) {
+      val isAlphanumeric = Character.isLetterOrDigit(c);
+
+      if (isAlphanumeric && lastChar.isEmpty()) {
+        lastChar = Optional.of(c);
+        continue;
+      }
+
+      if (lastChar.isEmpty())
+        continue;
+
+      val direction = getDirection(isAlphanumeric, c, lastChar.get());
+      sequenceLen = direction == lastDirection ? sequenceLen + 1 : 2;
+
+      if (sequenceLen > result)
+        result = sequenceLen;
+
+      lastDirection = direction;
+      lastChar = Optional.of(c);
+    }
+
+    return result;
+  }
+
+  private enum SequenceDirection {
+    ASCENDING, DESCENDING, NONE
+  }
+
+  private SequenceDirection getDirection(final boolean isAlphanumeric, final char c, final char lastChar) {
+    if (!isAlphanumeric || c == lastChar)
+      return SequenceDirection.NONE;
+
+    return lastChar + 1 == c ? SequenceDirection.ASCENDING : SequenceDirection.DESCENDING;
   }
 }
