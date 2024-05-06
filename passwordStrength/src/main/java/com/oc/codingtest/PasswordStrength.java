@@ -7,6 +7,11 @@ import java.util.Optional;
 import lombok.val;
 
 public class PasswordStrength {
+  /**
+   * Check the supplied password.
+   * Return true if the repetition count and sequence length are below or equal
+   * to the specified maximum. Otherwise, return false.
+   */
   public boolean isPasswordPermissible(final String password, final int maxAllowedRepetitionCount, final int maxAllowedSequenceLength) {
     // This method accepts a password (String) and calculates two password strength parameters:
     // Repetition count and Max Sequence length
@@ -43,8 +48,6 @@ public class PasswordStrength {
    * eg3b: "passwordABC" would have a max. sequence length of 3 - for the sequence of "ABC".
    * eg4: "AbCdEf" would have a sequence length of 6, even though it is mixed case.
    * eg5: "ABC_DEF" would have a sequence length of 3, because the special character breaks the progression
-   * Check the supplied password.  Return true if the repetition count and sequence length are below or equal to the
-   * specified maximum.  Otherwise, return false.
    * @param password
    * @return
    */
