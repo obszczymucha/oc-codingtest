@@ -20,7 +20,15 @@ class PasswordStrengthTest {
       Arguments.of("password", 2),
       Arguments.of("touchwood", 3),
       // The check should be case-sensitive
-      Arguments.of("TheQuickBrownFoxJumpsOverTheLazyDog", 3)
+      Arguments.of("TheQuickBrownFoxJumpsOverTheLazyDog", 3),
+
+      // I didn't add a test that checks for null, because I trust that such
+      // validation is handled elsewhere. Perhaps responding with BadRequest
+      // and not reaching the service layer at all?
+      Arguments.of("", 0),
+      Arguments.of(" ", 1),
+      Arguments.of(":", 1),
+      Arguments.of("a", 1)
     );
   }
 
@@ -53,7 +61,14 @@ class PasswordStrengthTest {
       Arguments.of("01234*567:", 5),
 
       //Ascending and descending mixed
-      Arguments.of("23454321", 5)
+      Arguments.of("23454321", 5),
+
+      // Not adding null test on purpose here either.
+      Arguments.of("", 0),
+      Arguments.of(" ", 0),
+      Arguments.of("a", 0),
+      Arguments.of(":", 0),
+      Arguments.of("ab", 2)
     );
   }
 
